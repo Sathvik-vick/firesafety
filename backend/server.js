@@ -17,8 +17,8 @@ console.log('GEMINI_API_KEY status:', process.env.GEMINI_API_KEY ? 'Loaded' : 'M
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
-const PORT = process.env.PORT || 80;  // Change port to 80
-const HOST = '0.0.0.0';  // Add this line
+const PORT = process.env.PORT || 80;
+const HOST = '0.0.0.0';
 const DOMAIN = process.env.DOMAIN || 'sparkshieldenterprises.xyz';
 
 // Initialize Firebase Admin
@@ -39,8 +39,8 @@ app.use(cors({
     origin: [
         `https://${DOMAIN}`,
         `https://www.${DOMAIN}`,
-        'https://sparkshield.onrender.com'  // Changed from firesafety to sparkshield
-    ],
+        process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : null
+    ].filter(Boolean),
     methods: ['GET', 'POST'],
     credentials: true
 }));
