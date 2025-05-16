@@ -63,14 +63,17 @@ app.use(cors({
     origin: [
         'http://localhost:80',
         'http://localhost:3000',
-        'https://sparkshield.onrender.com',
+        'https://sparkshield1.onrender.com',
         'https://sparkshieldenterprises.xyz',
         'https://www.sparkshieldenterprises.xyz'
     ],
-    methods: ['GET', 'POST'],
+    methods: ['GET', 'POST', 'OPTIONS'],
     credentials: true,
-    optionsSuccessStatus: 200
+    optionsSuccessStatus: 200,
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+app.options('*', cors()); // Enable preflight for all routes
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
