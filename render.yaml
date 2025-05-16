@@ -2,7 +2,7 @@ services:
   - type: web
     name: sparkshield
     env: node
-    buildCommand: cd backend && npm install
+    buildCommand: npm install
     startCommand: cd backend && node server.js
     envVars:
       - key: NODE_ENV
@@ -11,5 +11,3 @@ services:
         value: 80
       - key: HOST
         value: 0.0.0.0
-      - key: DOMAIN
-        value: sparkshieldenterprises.xyz

@@ -1,5 +1,5 @@
 {
-  "name": "firesafety",
+  "name": "sparkshield",
   "version": "1.0.0",
   "description": "SparkShield Enterprises Backend",
   "license": "ISC",
@@ -7,7 +7,7 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "cd backend && node server.js",
     "build": "npm install"
   },
   "dependencies": {
@@ -18,5 +18,8 @@
     "firebase": "^11.7.1",
     "firebase-admin": "^11.11.0",
     "nodemailer": "^7.0.3"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   }
 }
