@@ -154,6 +154,66 @@ app.post("/submit-quote", async (req, res) => {
     }
 });
 
+// Add this after your existing quote route
+app.post("/amc-quote", async (req, res) => {
+    const { name, email, phone, services, message } = req.body;
+
+    // Validate required fields
+    if (!name || !email || !phone || !services || services.length === 0) {
+        return res.status(400).json({ 
+            error: "Missing required fields" 
+        });
+    }
+
+    try {
+        // Save to Firebase
+        const ref = db.ref("amc-quotes");
+        const newQuoteRef = ref.push();
+        
+        const quoteData = {
+            name,
+            email,
+            phone,
+            services,
+            message,
+            timestamp: new Date().toISOString()
+        };
+
+        await newQuoteRef.set(quoteData);
+
+        // Send email notification
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: process.env.EMAIL_USER,
+            subject: `New AMC Quote Request from ${name}`,
+            html: `
+                <h2>New AMC Quote Request Details</h2>
+                <p><strong>Name:</strong> ${name}</p>
+                <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Phone:</strong> ${phone}</p>
+                <p><strong>Services Required:</strong></p>
+                <ul>
+                    ${services.map(service => `<li>${service.replace(/_/g, ' ').toUpperCase()}</li>`).join('')}
+                </ul>
+                <p><strong>Additional Requirements:</strong></p>
+                <p>${message || 'No additional requirements provided.'}</p>
+                <p><strong>Submitted on:</strong> ${new Date().toLocaleString()}</p>
+            `
+        };
+
+        await transporter.sendMail(mailOptions);
+
+        res.json({ 
+            message: "AMC quote request submitted successfully!" 
+        });
+    } catch (error) {
+        console.error("Error:", error);
+        res.status(500).json({ 
+            error: "Error processing AMC quote request" 
+        });
+    }
+});
+
 // Get all quotes (optional - for your reference)
 app.get("/get-quotes", (req, res) => {
   const ref = db.ref("quotes");
