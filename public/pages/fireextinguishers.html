@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fire Extinguishers | SafeGuard Fire Protection</title>
+    <style>
+        :root {
+            --primary-color: #e63946;
+            --secondary-color: #1d3557;
+            --light-color: #f1faee;
+            --dark-color: #333;
+            --max-width: 1200px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header {
+            background: var(--primary-color);
+            color: #fff;
+            padding: 20px 0;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .content-section {
+            margin-bottom: 40px;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .extinguisher-type {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .extinguisher-type h3 {
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+
+        .maintenance-list {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .maintenance-list li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .maintenance-list li::before {
+            content: "•";
+            color: var(--primary-color);
+            position: absolute;
+            left: 0;
+        }
+
+        .back-btn {
+            display: inline-block;
+            background: var(--primary-color);
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #c1272d;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <h1>Fire Extinguishers</h1>
+            <p>Complete Fire Extinguisher Solutions for Your Safety</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="content-section">
+            <h2>Our Fire Extinguisher Services</h2>
+            <p>At SafeGuard Fire Protection, we provide comprehensive fire extinguisher services to ensure your premises
+                are fully protected and compliant with safety regulations.</p>
+
+            <img src="https://www.cws.com/sites/default/files/styles/photoswipe/public/2021-12/cws-fs-powder-fire-extinguisher-seeboth-feuerloscher-abc-2-int_0.jpg.webp?itok=0C9x5V63"
+                alt="Fire Extinguisher Types">
+
+            <div class="content-grid">
+                <div class="extinguisher-type">
+                    <h3>Class A Fire Extinguishers</h3>
+                    <p>Suitable for ordinary combustible materials like wood, paper, and cloth.</p>
+                </div>
+
+                <div class="extinguisher-type">
+                    <h3>Class B Fire Extinguishers</h3>
+                    <p>Designed for flammable liquids like gasoline, oil, and grease.</p>
+                </div>
+
+                <div class="extinguisher-type">
+                    <h3>Class C Fire Extinguishers</h3>
+                    <p>Specifically for electrical equipment and installations.</p>
+                </div>
+
+                <div class="extinguisher-type">
+                    <h3>Class D Fire Extinguishers</h3>
+                    <p>For combustible metals and metal alloys.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Maintenance Services</h2>
+            <ul class="maintenance-list">
+                <li>Regular inspection and testing</li>
+                <li>Refilling and recharging</li>
+                <li>Pressure testing</li>
+                <li>Parts replacement</li>
+                <li>Certification and compliance checks</li>
+                <li>Staff training on proper usage</li>
+            </ul>
+        </section>
+
+        <a href="index.html" class="back-btn">Back to Home</a>
+    </main>
+</body>
+
+</html>
