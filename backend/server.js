@@ -21,14 +21,24 @@ const PORT = process.env.PORT || 80;
 const HOST = '0.0.0.0';
 const DOMAIN = process.env.DOMAIN || 'sparkshieldenterprises.xyz';
 
-// Initialize Firebase Admin
-const serviceAccount = JSON.parse(
-  readFileSync(join(__dirname, './serviceAccountKey.json'), 'utf8')
-);
+// Initialize Firebase Admin with better error handling
+let serviceAccount;
+try {
+    if (process.env.FIREBASE_CREDENTIALS) {
+        console.log('Using Firebase credentials from environment variable');
+        serviceAccount = JSON.parse(Buffer.from(process.env.FIREBASE_CREDENTIALS, 'base64').toString());
+    } else {
+        console.log('Using local serviceAccountKey.json');
+        serviceAccount = JSON.parse(readFileSync(join(__dirname, './serviceAccountKey.json'), 'utf8'));
+    }
+} catch (error) {
+    console.error('Error loading Firebase credentials:', error);
+    throw new Error('Failed to load Firebase credentials');
+}
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://sparkshield-c499d-default-rtdb.firebaseio.com"
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://sparkshield-c499d-default-rtdb.firebaseio.com"
 });
 
 const db = admin.database();
