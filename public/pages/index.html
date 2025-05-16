@@ -1242,7 +1242,7 @@
   <header class="header">
     <div class="container header-container">
       <div class="logo">
-        <img src="/public/images/spruk.jpg" alt="Fire safety logo">
+        <img src="/images/spruk.jpg" alt="Fire safety logo">
         <div class="logo-text">
           <h1>SPARKSHIELD</h1>
           <span>Guarding Lives, Securing Futures</span>
@@ -1255,17 +1255,17 @@
           <li class="dropdown">
             <a href="#services">Services</a>
             <div class="dropdown-content">
-                <a href="/public/pages/hydrantsystem.html">Fire Hydrant System</a>
-                <a href="public/pages/sprinklersystem.html">Fire Sprinkler System</a>
-                <a href="/public/pages/firealarmsystem.html">Fire Alarm System</a>
-                <a href="/public/pages/pasystem.html">PA System</a>
-                <a href="/public/pages/firesafetyproducts.html">Fire Safety Products</a>
-                <a href="/public/pages/amc.html">AMC of Fire Hydrant System</a>
+                <a href="/pages/hydrantsystem.html">Fire Hydrant System</a>
+                <a href="/pages/sprinklersystem.html">Fire Sprinkler System</a>
+                <a href="/pages/firealarmsystem.html">Fire Alarm System</a>
+                <a href="/pages/pasystem.html">PA System</a>
+                <a href="/pages/firesafetyproducts.html">Fire Safety Products</a>
+                <a href="/pages/amc.html">AMC of Fire Hydrant System</a>
                 
             </div>
           </li>
           <li><a href="#about">About Us</a></li>
-          <li><a href="/public/pages/contact.html">Contact</a></li>
+          <li><a href="/pages/contact.html">Contact</a></li>
         </ul>
       </nav>
 
@@ -1283,10 +1283,10 @@
       style="background-image: url('https://www.variex.in/wp-content/uploads/2020/07/How-Long-Does-A-Fire-Extinguisher-Work.jpg')">
     </div>
     <div class="slide"
-      style="background-image: url('/public/images/east-midlands.jpeg')">
+      style="background-image: url('/images/east-midlands.jpeg')">
     </div>
     <div class="slide"
-      style="background-image: url('/public/images/fire-fighting.jpg')">
+      style="background-image: url('/images/fire-fighting.jpg')">
     </div>
   
     <!-- Static content -->
@@ -1329,7 +1329,7 @@
             <h3>Fire Alarm Systems</h3>
             <p>Advanced fire detection and alarm systems for early warning and protection of buildings and occupants.
             </p>
-            <a href="firealarmsystem.html" class="btn">Learn More</a>
+            <a href="/pages/firealarmsystem.html" class="btn">Learn More</a>
           </div>
         </div>
 
@@ -1352,7 +1352,7 @@
           <div class="service-content">
             <h3>Fire Hydrant System</h3>
             <p>Installation and maintenance of fire hydrant systems to ensure efficient water access in the event of a fire.</p>
-            <a href="hydrantsystem.html" class="btn">Learn More</a>
+            <a href="/pages/hydrantsystem.html" class="btn">Learn More</a>
           </div>
         </div>
 
@@ -1364,7 +1364,7 @@
           <div class="service-content">
             <h3>Fire Safety Mock Drills</h3>
             <p>Expert training for your staff in fire prevention, emergency procedures and equipment operation.</p>
-            <a href="mockdrills.html" class="btn">Learn More</a>
+            <a href="/pages/mockdrills.html" class="btn">Learn More</a>
           </div>
         </div>
       </div>
@@ -1383,7 +1383,7 @@
                 <p><strong>Dependable. Responsive. Future-ready.</strong> SparkShield delivers commercial fire protection you can count on—today and tomorrow.</p>
             </div>
             <div class="about-img">
-                <img src="/public/images/about.jpg" 
+                <img src="/images/about.jpg" 
                      alt="About SparkShield"
                      loading="lazy">
             </div>
@@ -1417,18 +1417,18 @@
             <li><a href="#home">Home</a></li>
             <li><a href="#services">Services</a></li>
             <li><a href="#about">About Us</a></li>
-            <li><a href="/public/pages/contact.html">Contact</a></li>
+            <li><a href="/pages/contact.html">Contact</a></li>
           </ul>
         </div>
 
         <div class="footer-section">
           <h3>Services</h3>
           <ul>
-            <li><a href="fireextinguishers.html">Fire Extinguishers</a></li>
-            <li><a href="firealarmsystem.html">Fire Alarm Systems</a></li>
-            <li><a href="sprinklersystems.html">Sprinkler Systems</a></li>
-            <li><a href="hydrantsystem.html">Hydrant System</a></li>
-            <li><a href="mockdrills.html">Fire Safety Mock Drills</a></li>
+            <li><a href="/pages/fireextinguishers.html">Fire Extinguishers</a></li>
+            <li><a href="/pages/firealarmsystem.html">Fire Alarm Systems</a></li>
+            <li><a href="/pages/sprinklersystems.html">Sprinkler Systems</a></li>
+            <li><a href="/pages/hydrantsystem.html">Hydrant System</a></li>
+            <li><a href="/pages/mockdrills.html">Fire Safety Mock Drills</a></li>
           </ul>
         </div>
 
@@ -1447,226 +1447,218 @@
   </footer>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const dropdowns = document.querySelectorAll('.dropdown');
+// Define API_URL globally
+const API_URL = window.location.hostname === 'localhost' 
+    ? 'http://localhost:80' 
+    : 'https://sparkshield.onrender.com';
+
+// Wait for DOM to load
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize dropdowns
+    initializeDropdowns();
+    // Start image slider
+    startSlider();
+    // Initialize chat
+    initializeChat();
+    // Initialize quote form
+    initializeQuoteForm();
+});
+
+function initializeDropdowns() {
+    const dropdowns = document.querySelectorAll('.dropdown');
+    
+    dropdowns.forEach(dropdown => {
+        const link = dropdown.querySelector('a');
+        const content = dropdown.querySelector('.dropdown-content');
         
-        dropdowns.forEach(dropdown => {
-            const link = dropdown.querySelector('a');
-            const content = dropdown.querySelector('.dropdown-content');
-            
-            // Toggle dropdown on click
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                content.classList.toggle('show');
-                
-                // Close other open dropdowns
-                dropdowns.forEach(other => {
-                    if (other !== dropdown) {
-                        other.querySelector('.dropdown-content').classList.remove('show');
-                    }
-                });
-            });
-        });
-        
-        // Close dropdowns when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!e.target.closest('.dropdown')) {
-                document.querySelectorAll('.dropdown-content').forEach(content => {
-                    content.classList.remove('show');
-                });
-            }
-        });
-    });
-
-    // Image slider functionality
-    function startSlider() {
-        const slides = document.querySelectorAll('.slide');
-        let currentSlide = 0;
-        
-        // Show first slide
-        slides[0].classList.add('active');
-        
-        setInterval(() => {
-            // Remove active class from current slide
-            slides[currentSlide].classList.remove('active');
-            
-            // Move to next slide
-            currentSlide = (currentSlide + 1) % slides.length;
-            
-            // Add active class to new slide
-            slides[currentSlide].classList.add('active');
-        }, 3000); // Change slide every 3 seconds
-    }
-
-    // Start slider when page loads
-    document.addEventListener('DOMContentLoaded', startSlider);
-
-    // Add this to your existing script section
-    document.addEventListener('DOMContentLoaded', function() {
-        const modal = document.getElementById('quoteModal');
-        const quoteButtons = document.querySelectorAll('a[href="#contact"], .btn-light[href="#"]');
-        const closeModal = document.querySelector('.close-modal');
-        const quoteForm = document.getElementById('quoteForm');
-
-        // Open modal when clicking any quote button
-        quoteButtons.forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                modal.classList.add('show');
-            });
-        });
-
-        // Close modal when clicking X button
-        closeModal.addEventListener('click', function() {
-            modal.classList.remove('show');
-        });
-
-        // Close modal when clicking outside
-        window.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                modal.classList.remove('show');
-            }
-        });
-
-        // Handle form submission
-        quoteForm.addEventListener('submit', async function(e) {
+        link.addEventListener('click', function(e) {
             e.preventDefault();
+            content.classList.toggle('show');
             
-            // Get all selected services
-            const selectedServices = Array.from(document.querySelectorAll('input[name="services[]"]:checked'))
-                .map(checkbox => checkbox.value);
-            
-            if (selectedServices.length === 0) {
-                showToast('Please select at least one service', true);
-                return;
-            }
-
-            const formData = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                phone: document.getElementById('phone').value,
-                services: selectedServices,
-                message: document.getElementById('message').value
-            };
-
-            try {
-                const response = await fetch('http://localhost:3000/submit-quote', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formData)
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    modal.classList.remove('show');
-                    quoteForm.reset();
-                    showToast('Quote request submitted successfully!');
-                } else {
-                    throw new Error(data.error || 'Failed to submit quote');
+            dropdowns.forEach(other => {
+                if (other !== dropdown) {
+                    other.querySelector('.dropdown-content').classList.remove('show');
                 }
-            } catch (error) {
-                console.error('Error:', error);
-                showToast(error.message, true);
-            }
-        });
-    });
-
-    // Add toast notification function
-    function showToast(message, isError = false) {
-        const toast = document.getElementById('toast');
-        const toastMessage = document.getElementById('toastMessage');
-        const icon = toast.querySelector('i');
-
-        toastMessage.textContent = message;
-        
-        if (isError) {
-            toast.classList.add('error');
-            icon.className = 'fas fa-exclamation-circle';
-        } else {
-            toast.classList.remove('error');
-            icon.className = 'fas fa-check-circle';
-        }
-
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 3000);
-    }
-
-    // Update the chat form submission in your index.html
-    document.getElementById('chatForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const userInput = document.getElementById('userInput');
-        const message = userInput.value.trim();
-        
-        if (!message) return;
-
-        // Add user message to chat
-        addMessage('user', message);
-        userInput.value = '';
-
-        // Show typing indicator
-        const typingIndicator = addMessage('bot', 'Typing...');
-
-        try {
-            const response = await fetch('http://localhost:3000/chat', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ message })
             });
+        });
+    });
+    
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.dropdown')) {
+            document.querySelectorAll('.dropdown-content').forEach(content => {
+                content.classList.remove('show');
+            });
+        }
+    });
+}
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
+function startSlider() {
+    const slides = document.querySelectorAll('.slide');
+    if (slides.length === 0) return;
 
-            const data = await response.json();
-            typingIndicator.remove();
+    let currentSlide = 0;
+    slides[0].classList.add('active');
+    
+    setInterval(() => {
+        slides[currentSlide].classList.remove('active');
+        currentSlide = (currentSlide + 1) % slides.length;
+        slides[currentSlide].classList.add('active');
+    }, 3000);
+}
 
-            if (data.response) {
-                addMessage('bot', data.response);
-            } else {
-                throw new Error('Invalid response format');
-            }
+function initializeChat() {
+    const chatForm = document.getElementById('chatForm');
+    const chatMessages = document.getElementById('chatMessages');
+    const minimizeBtn = document.querySelector('.minimize-btn');
+    const chatBody = document.querySelector('.chat-body');
+    
+    if (!chatForm || !chatMessages) return;
 
-        } catch (error) {
-            console.error('Error:', error);
-            typingIndicator.remove();
-            addMessage('bot', 'Sorry, I encountered an error. Please try again.');
+    let isMinimized = false;
+
+    minimizeBtn?.addEventListener('click', () => {
+        isMinimized = !isMinimized;
+        if (chatBody) {
+            chatBody.style.display = isMinimized ? 'none' : 'flex';
+            minimizeBtn.textContent = isMinimized ? '+' : '−';
         }
     });
 
-    // Function to add message to chat
-    function addMessage(type, text) {
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `message ${type}`;
-        messageDiv.textContent = text;
-        chatMessages.appendChild(messageDiv);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-        return messageDiv;
+    chatForm.addEventListener('submit', handleChatSubmit);
+}
+
+async function handleChatSubmit(e) {
+    e.preventDefault();
+    const userInput = document.getElementById('userInput');
+    const message = userInput.value.trim();
+    
+    if (!message) return;
+
+    addMessage('user', message);
+    userInput.value = '';
+    const typingIndicator = addMessage('bot', 'Typing...');
+
+    try {
+        const response = await fetch(`${API_URL}/chat`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message })
+        });
+
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const data = await response.json();
+        typingIndicator.remove();
+        addMessage('bot', data.response);
+    } catch (error) {
+        console.error('Error:', error);
+        typingIndicator.remove();
+        addMessage('bot', 'Sorry, I encountered an error. Please try again.');
+    }
+}
+
+function initializeQuoteForm() {
+    const quoteForm = document.getElementById('quoteForm');
+    const modal = document.getElementById('quoteModal');
+    const quoteButtons = document.querySelectorAll('a[href="#contact"], .btn-light[href="#"]');
+    const closeModal = document.querySelector('.close-modal');
+    
+    if (!quoteForm || !modal) return;
+
+    quoteButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            modal.classList.add('show');
+        });
+    });
+
+    closeModal?.addEventListener('click', () => modal.classList.remove('show'));
+    
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.remove('show');
+        }
+    });
+
+    quoteForm.addEventListener('submit', handleQuoteSubmit);
+}
+
+async function handleQuoteSubmit(e) {
+    e.preventDefault();
+    const form = e.target;
+    const modal = document.getElementById('quoteModal');
+    
+    const selectedServices = Array.from(
+        document.querySelectorAll('input[name="services[]"]:checked')
+    ).map(cb => cb.value);
+    
+    if (selectedServices.length === 0) {
+        showToast('Please select at least one service', true);
+        return;
     }
 
-    // Add this to your existing script section
-    document.addEventListener('DOMContentLoaded', function() {
-        const chatIcon = document.getElementById('chatIcon');
-        const chatWindow = document.querySelector('.chat-window');
-        const minimizeBtn = document.querySelector('.minimize-btn');
-        
-        // Toggle chat window when clicking the icon
-        chatIcon.addEventListener('click', () => {
-            chatWindow.style.display = chatWindow.style.display === 'none' ? 'block' : 'none';
+    const formData = {
+        name: form.name.value,
+        email: form.email.value,
+        phone: form.phone.value,
+        services: selectedServices,
+        message: form.message.value
+    };
+
+    try {
+        const response = await fetch(`${API_URL}/submit-quote`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
         });
 
-        // Close chat window when clicking the minimize button
-        minimizeBtn.addEventListener('click', () => {
-            chatWindow.style.display = 'none';
-        });
+        const data = await response.json();
 
-        // Keep existing chat functionality...
-    });
-  </script>
+        if (response.ok) {
+            modal.classList.remove('show');
+            form.reset();
+            showToast('Quote request submitted successfully!');
+        } else {
+            throw new Error(data.error || 'Failed to submit quote');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        showToast(error.message, true);
+    }
+}
+
+function addMessage(type, text) {
+    const chatMessages = document.getElementById('chatMessages');
+    if (!chatMessages) return;
+    
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${type}`;
+    messageDiv.textContent = text;
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    return messageDiv;
+}
+
+function showToast(message, isError = false) {
+    const toast = document.getElementById('toast');
+    const toastMessage = document.getElementById('toastMessage');
+    
+    if (!toast || !toastMessage) return;
+    
+    const icon = toast.querySelector('i');
+    toastMessage.textContent = message;
+    
+    if (isError) {
+        toast.classList.add('error');
+        if (icon) icon.className = 'fas fa-exclamation-circle';
+    } else {
+        toast.classList.remove('error');
+        if (icon) icon.className = 'fas fa-check-circle';
+    }
+
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+}
+</script>
 
   <!-- Add this before the closing </body> tag -->
 <div class="modal" id="quoteModal">
@@ -1867,7 +1859,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const typingIndicator = addMessage('bot', 'Typing...');
 
         try {
-            const response = await fetch('http://localhost:3000/chat', {
+            const response = await fetch(`${API_URL}/chat`, { // Using API_URL instead of hardcoded port
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

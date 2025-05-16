@@ -26,20 +26,34 @@ let serviceAccount;
 try {
     if (process.env.FIREBASE_CREDENTIALS) {
         console.log('Using Firebase credentials from environment variable');
-        serviceAccount = JSON.parse(Buffer.from(process.env.FIREBASE_CREDENTIALS, 'base64').toString());
+        const decodedCreds = Buffer.from(process.env.FIREBASE_CREDENTIALS, 'base64').toString();
+        try {
+            serviceAccount = JSON.parse(decodedCreds);
+            // Verify essential fields
+            if (!serviceAccount.project_id || !serviceAccount.private_key) {
+                throw new Error('Invalid credential format');
+            }
+            console.log('Firebase credentials parsed successfully');
+        } catch (parseError) {
+            console.error('Error parsing Firebase credentials:', parseError);
+            throw parseError;
+        }
     } else {
         console.log('Using local serviceAccountKey.json');
-        serviceAccount = JSON.parse(readFileSync(join(__dirname, './serviceAccountKey.json'), 'utf8'));
+        const rawData = readFileSync(join(__dirname, './serviceAccountKey.json'), 'utf8');
+        serviceAccount = JSON.parse(rawData);
     }
+
+    admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount),
+        databaseURL: "https://sparkshield-c499d-default-rtdb.firebaseio.com"
+    });
+    console.log('Firebase initialized successfully');
+
 } catch (error) {
     console.error('Error loading Firebase credentials:', error);
     throw new Error('Failed to load Firebase credentials');
 }
-
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://sparkshield-c499d-default-rtdb.firebaseio.com"
-});
 
 const db = admin.database();
 
@@ -47,13 +61,22 @@ const db = admin.database();
 
 app.use(cors({
     origin: [
-        `https://${DOMAIN}`,
-        `https://www.${DOMAIN}`,
-        process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : null
-    ].filter(Boolean),
+        'http://localhost:80',
+        'http://localhost:3000',
+        'http://127.0.0.1:80',
+        'http://127.0.0.1:3000',
+        'https://sparkshield.onrender.com',
+        'https://sparkshieldenterprises.xyz',
+        'https://www.sparkshieldenterprises.xyz'
+    ],
     methods: ['GET', 'POST'],
-    credentials: true
+    credentials: true,
+    optionsSuccessStatus: 200
 }));
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use(bodyParser.json());
 app.use(express.static(join(__dirname, '../public')));
 
@@ -63,6 +86,11 @@ const transporter = nodemailer.createTransport({
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
     }
+});
+
+// Add after your imports
+app.get('/health', (req, res) => {
+    res.status(200).send('OK');
 });
 
 // Submit quote request
@@ -193,7 +221,30 @@ app.post("/chat", async (req, res) => {
     }
 });
 
+// Serve static files
+app.use(express.static(join(__dirname, '../public')));
+
+// Define routes
+app.get('/', (req, res) => {
+    res.sendFile(join(__dirname, '../public/pages/index.html'));
+});
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error('Error:', err);
+    res.status(500).send('Internal Server Error');
+});
+
+// Add after your routes
+app.use((err, req, res, next) => {
+    console.error('Error:', err);
+    res.status(500).json({
+        success: false,
+        message: 'Internal server error',
+        error: process.env.NODE_ENV === 'development' ? err.message : undefined
+    });
+});
+
 // Start server
 app.listen(PORT, HOST, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Server is running on http://${HOST}:${PORT}`);
 });
