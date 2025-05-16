@@ -39,7 +39,7 @@ app.use(cors({
     origin: [
         `https://${DOMAIN}`,
         `https://www.${DOMAIN}`,
-        'https://sparkshield.onrender.com'
+        'https://sparkshield.onrender.com'  // Changed from firesafety to sparkshield
     ],
     methods: ['GET', 'POST'],
     credentials: true
