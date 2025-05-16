@@ -2,12 +2,10 @@ services:
   - type: web
     name: sparkshield
     env: node
-    buildCommand: npm install
-    startCommand: cd backend && node server.js
+    buildCommand: npm run build
+    startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
       - key: PORT
         value: 80
-      - key: HOST
-        value: 0.0.0.0
