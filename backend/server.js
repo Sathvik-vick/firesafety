@@ -17,7 +17,7 @@ console.log('GEMINI_API_KEY status:', process.env.GEMINI_API_KEY ? 'Loaded' : 'M
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
-const PORT = process.env.PORT || 80;
+const PORT = process.env.PORT || 3000;
 const HOST = '0.0.0.0';
 const DOMAIN = process.env.DOMAIN || 'sparkshieldenterprises.xyz';
 
@@ -307,5 +307,5 @@ app.use((err, req, res, next) => {
 
 // Start server
 app.listen(PORT, HOST, () => {
-    console.log(`Server is running on http://${HOST}:${PORT}`);
+    console.log(`Server is running on ${process.env.VERCEL_URL || `http://${HOST}:${PORT}`}`);
 });
